@@ -1,0 +1,27 @@
+# Data files
+data/
+*.csv
+
+# Mac
+.DS_Store
+
+# Python
+__pycache__/
+*.py[oc]
+.venv/
+venv/
+.env
+
+# Model files
+*.pt
+*.pth
+*.pkl
+*.faiss
+*.index
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.idea/
+.vscode/
