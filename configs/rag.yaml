@@ -1,0 +1,56 @@
+# RAG (Retrieval-Augmented Generation) Configuration
+# ===================================================
+# Settings for case memory, FAISS, and ICL prompts
+
+# Case Memory
+case_memory:
+  storage_dir: "./case_memory"
+  
+  # Case selection
+  selection:
+    total_cases: 1000
+    num_illicit: 350
+    num_licit: 350
+    num_edge: 300
+    
+    # Thresholds
+    illicit_threshold: 0.85  # Min fraud score for illicit selection
+    licit_threshold: 0.15   # Max fraud score for licit selection
+    edge_range: [0.4, 0.6]  # Fraud score range for edge cases
+    
+    # Selection strategy
+    strategy: "balanced"  # Options: balanced, diverse, confident
+    diversity_weight: 0.5
+
+# FAISS Index
+faiss:
+  index_type: "flat"  # Options: flat, ivf, hnsw
+  metric: "l2"  # Options: l2, cosine
+  
+  # IVF specific (if index_type is ivf)
+  ivf:
+    nlist: 100  # Number of clusters
+    nprobe: 10  # Number of clusters to search
+  
+  # Save/load paths
+  index_path: "./case_memory/faiss.index"
+
+# Retrieval
+retrieval:
+  k_cases: 3  # Number of cases to retrieve
+  include_both_labels: true  # Include both illicit and licit examples
+  min_similarity: 0.0  # Minimum similarity threshold
+
+# ICL Prompts
+prompts:
+  max_cases: 3
+  include_features: true
+  include_network_context: true
+  task_type: "full_analysis"  # Options: full_analysis, risk_only, recommendation_only
+
+# LLM Configuration (if using)
+llm:
+  provider: "openai"  # Options: openai, anthropic, local
+  model: "gpt-4"
+  temperature: 0.3
+  max_tokens: 1000

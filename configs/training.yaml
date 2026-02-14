@@ -1,0 +1,50 @@
+# Training Configuration
+# ======================
+# Hyperparameters for training GNN models
+
+# Training loop
+training:
+  epochs: 200
+  early_stopping_patience: 20
+  min_delta: 0.0001
+
+# Optimizer
+optimizer:
+  type: "adam"
+  lr: 0.001
+  weight_decay: 0.0001
+
+# Learning rate scheduler
+scheduler:
+  type: "plateau"  # Options: plateau, cosine, step
+  factor: 0.5
+  patience: 10
+  min_lr: 0.000001
+
+# Loss function
+loss:
+  type: "cross_entropy"
+  use_class_weights: true  # Handle class imbalance
+  label_smoothing: 0.0
+
+# Data splits (temporal)
+data:
+  train_ratio: 0.7
+  val_ratio: 0.15
+  test_ratio: 0.15
+  normalize_features: true
+
+# Device
+device: "cpu"  # Options: cpu, cuda, mps
+
+# Checkpointing
+checkpoint:
+  dir: "./baseline/checkpoints"
+  save_best: true
+  save_every: 10  # Save every N epochs
+
+# Logging
+logging:
+  verbose: true
+  log_every: 1  # Log every N epochs
+  tensorboard: false

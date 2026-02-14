@@ -1,0 +1,34 @@
+# Model Configuration
+# ===================
+# GNN model hyperparameters for fraud detection
+
+# Model architecture
+model:
+  type: "graphsage"  # Options: graphsage, gat
+  
+  # GraphSAGE specific
+  graphsage:
+    hidden_dims: [256, 128]
+    embedding_dim: 64
+    dropout: 0.3
+    aggregator: "mean"  # Options: mean, max, lstm
+    use_batch_norm: true
+  
+  # GAT specific
+  gat:
+    hidden_dims: [256, 128]
+    embedding_dim: 64
+    heads: [4, 4]
+    dropout: 0.3
+    attention_dropout: 0.3
+    use_batch_norm: true
+
+# Input/Output dimensions
+input:
+  num_features: 166
+  num_classes: 2
+
+# Embedding for FAISS
+embedding:
+  dim: 64
+  normalize: true  # L2 normalize embeddings
