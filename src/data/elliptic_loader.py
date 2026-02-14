@@ -125,10 +125,9 @@ class EllipticDataLoader:
         )
         print(f"  Labels: {self._labels_df.shape[0]:,} entries")
         
-        # Load edges
+        # Load edges (has header: txId1, txId2)
         self._edges_df = pd.read_csv(
-            self.data_dir / 'elliptic_txs_edgelist.csv',
-            header=None
+            self.data_dir / 'elliptic_txs_edgelist.csv'
         )
         print(f"  Edges: {self._edges_df.shape[0]:,} directed edges")
         
@@ -190,9 +189,14 @@ class EllipticDataLoader:
         edges_list = []
         skipped = 0
         
+        # Get column names (either txId1/txId2 or 0/1)
+        cols = self._edges_df.columns
+        src_col = cols[0]
+        dst_col = cols[1]
+        
         for _, row in self._edges_df.iterrows():
-            src = int(row[0])
-            dst = int(row[1])
+            src = int(row[src_col])
+            dst = int(row[dst_col])
             
             # Map to contiguous indices
             if src in self._node_id_map and dst in self._node_id_map:
