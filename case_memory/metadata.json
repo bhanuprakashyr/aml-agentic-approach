@@ -2,14 +2,14 @@
   "num_cases": 1000,
   "embedding_dim": 64,
   "next_id": 1000,
-  "saved_at": "2026-02-15T08:31:53.116244",
+  "saved_at": "2026-02-15T18:23:00.141629",
   "statistics": {
     "num_cases": 1000,
-    "num_illicit": 376,
-    "num_licit": 624,
-    "avg_fraud_score": 0.4860920565776396,
+    "num_illicit": 378,
+    "num_licit": 622,
+    "avg_fraud_score": 0.49031150095471543,
     "min_fraud_score": 0.0,
-    "max_fraud_score": 0.999652624130249,
+    "max_fraud_score": 1.0,
     "embedding_dim": 64
   }
 }
