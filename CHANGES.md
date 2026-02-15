@@ -10,16 +10,22 @@
   - Test Results: F1=0.15, AUC=0.77, Recall=69%
   - Model checkpoint saved: `baseline/checkpoints/graphsage_baseline.pt`
   - Embeddings saved: `baseline/checkpoints/node_embeddings.npz`
+- ✅ Created & ran Case Memory notebook: `notebooks/03_case_memory.ipynb`
+  - 1000 cases selected (376 illicit, 624 licit)
+  - FAISS index built for similarity search
+  - Saved to: `case_memory/`
+- ✅ Created & ran RAG Pipeline notebook: `notebooks/04_rag_pipeline.ipynb`
+  - End-to-end inference pipeline working
+  - ICL prompt generation (risk-only, recommendation, full analysis)
+  - Retrieval quality: Licit→Licit 94%, Illicit→Illicit 20%
+  - Sample prompt saved to: `case_memory/sample_prompt_160387.txt`
+  - Ready for LLM integration (GPT-4, Claude, etc.)
 
 ## Next
-- [ ] Build Case Memory: `notebooks/03_case_memory.ipynb`
-  - Load embeddings from baseline
-  - Create FAISS index
-  - Build case store with explanations
-- [ ] Test RAG Pipeline: `notebooks/04_rag_pipeline.ipynb`
-  - End-to-end inference
-  - ICL prompt generation
-  - LLM integration
+- [ ] Improve model F1 score (currently 0.15)
+- [ ] Add GNNExplainer for feature importance
+- [ ] Integrate with production LLM
+- [ ] Build analyst dashboard
 
 ## Key Context
 - **Dataset**: Elliptic (200K nodes, 234K edges, 166 features)

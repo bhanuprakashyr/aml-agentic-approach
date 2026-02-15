@@ -112,9 +112,10 @@ class ICLPromptBuilder:
         
         # Add top features
         for i, feat in enumerate(transaction.top_features[:5], 1):
-            lines.append(f"{i}. **{feat.get('name', f'Feature {feat.get(\"index\", i)}')}**: "
-                        f"importance={feat.get('importance', 0):.3f}, "
-                        f"value={feat.get('value', 0):.3f}")
+            feat_name = feat.get('name', f"Feature {feat.get('index', i)}")
+            importance = feat.get('importance', 0)
+            value = feat.get('value', 0)
+            lines.append(f"{i}. **{feat_name}**: importance={importance:.3f}, value={value:.3f}")
         
         # Add network context
         lines.extend([

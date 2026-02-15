@@ -1,0 +1,15 @@
+{
+  "num_cases": 1000,
+  "embedding_dim": 64,
+  "next_id": 1000,
+  "saved_at": "2026-02-15T08:31:53.116244",
+  "statistics": {
+    "num_cases": 1000,
+    "num_illicit": 376,
+    "num_licit": 624,
+    "avg_fraud_score": 0.4860920565776396,
+    "min_fraud_score": 0.0,
+    "max_fraud_score": 0.999652624130249,
+    "embedding_dim": 64
+  }
+}

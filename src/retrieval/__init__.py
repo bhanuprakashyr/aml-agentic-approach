@@ -3,6 +3,6 @@ FAISS-based retrieval for similar case lookup.
 """
 
 from .faiss_index import FAISSIndex
-from .retriever import CaseRetriever
+from .retriever import Retriever
 
-__all__ = ['FAISSIndex', 'CaseRetriever']
+__all__ = ['FAISSIndex', 'Retriever']
