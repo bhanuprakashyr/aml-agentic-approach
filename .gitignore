@@ -1,6 +1,8 @@
 # Data files
 data/
 *.csv
+*.pdf
+*.tex
 
 # Mac
 .DS_Store

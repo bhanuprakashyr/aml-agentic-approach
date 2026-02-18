@@ -1,14 +1,15 @@
 # Agentic AML System
 
-An intelligent Anti-Money Laundering (AML) system that combines Graph Neural Networks (GNN) with Retrieval-Augmented Generation (RAG) for explainable fraud detection on blockchain transactions.
+An intelligent Anti-Money Laundering (AML) system that combines Graph Neural Networks (GNN) with a **Hybrid 2-Agent Architecture** for explainable, autonomous fraud detection on blockchain transactions.
 
 ## 🎯 Overview
 
 This project implements a novel approach to AML by:
 1. **GNN-based Detection**: Using GraphSAGE/GAT models to detect suspicious transactions in the Bitcoin network
 2. **Case Memory**: Storing historical fraud cases with explanations
-3. **RAG Pipeline**: Retrieving similar past cases to provide context-aware, explainable predictions
-4. **In-Context Learning**: Generating human-readable explanations using retrieved cases as examples
+3. **Hybrid 2-Agent Pipeline**: Autonomous investigation with Coordinator + Analyst agents
+4. **ReAct Pattern**: Reason-Act-Observe loop for dynamic tool selection and evidence gathering
+5. **Structured Verdicts**: Risk levels, confidence scores, and actionable recommendations
 
 ## 🏗️ Architecture
 
@@ -19,32 +20,42 @@ This project implements a novel approach to AML by:
                       │
                       ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                 Graph Neural Network                            │
-│            (GraphSAGE / GAT Encoder)                            │
+│                  COORDINATOR AGENT                              │
+│                  (ReAct Pattern)                                │
 │                                                                 │
-│  • Node feature extraction                                      │
-│  • Neighborhood aggregation                                     │
-│  • Transaction embedding generation                             │
+│  THOUGHT → What information do I need?                          │
+│  ACTION  → get_fraud_score | retrieve_similar_cases |           │
+│            explain_prediction | get_network_context             │
+│  OBSERVE → Process tool output, plan next step                  │
+│                                                                 │
+│  Iterates until sufficient evidence gathered                    │
 └─────────────────────┬───────────────────────────────────────────┘
-                      │
+                      │ Evidence Package
                       ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                   RAG Pipeline                                  │
+│                    ANALYST AGENT                                │
 │                                                                 │
-│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐      │
-│  │ FAISS Index  │───▶│  Retriever   │───▶│ ICL Builder  │      │
-│  │              │    │              │    │              │      │
-│  │ Case vectors │    │ Top-k cases  │    │ Prompt       │      │
-│  └──────────────┘    └──────────────┘    └──────────────┘      │
-└─────────────────────┬───────────────────────────────────────────┘
-                      │
-                      ▼
+│  Input: All evidence from investigation                         │
+│  Output:                                                        │
+│    • Risk Level (CRITICAL/HIGH/MEDIUM/LOW)                      │
+│    • Confidence Score (0-100%)                                  │
+│    • Recommendation (FLAG_IMMEDIATE/INVESTIGATE/MONITOR/CLEAR)  │
+│    • Detailed reasoning with key factors                        │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Tool Architecture
+
+```
 ┌─────────────────────────────────────────────────────────────────┐
-│              Explainable Prediction                             │
-│                                                                 │
-│  • Fraud probability score                                      │
-│  • Similar historical cases                                     │
-│  • Human-readable explanation                                   │
+│                       AML Tools                                 │
+├─────────────────────────────────────────────────────────────────┤
+│  get_fraud_score      │ GNN prediction + confidence score       │
+│  retrieve_similar_cases│ FAISS k-NN search for similar fraud    │
+│  explain_prediction   │ GNNExplainer feature importance         │
+│  get_network_context  │ Neighbor analysis and risk propagation  │
+│  lookup_case          │ Historical case details by ID           │
+│  get_transaction_features│ Raw feature extraction               │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -58,26 +69,34 @@ aml-agentic-approach/
 │   └── rag.yaml            # RAG pipeline settings
 ├── data/
 │   └── elliptic_bitcoin_dataset/   # (not tracked in git)
-│       ├── elliptic_txs_features.csv
-│       ├── elliptic_txs_edgelist.csv
-│       └── elliptic_txs_classes.csv
 ├── notebooks/
-│   └── 01_eda.ipynb        # Exploratory data analysis
+│   ├── 01_eda.ipynb                # Exploratory data analysis
+│   ├── 02_gcn_baseline.ipynb       # GNN model training
+│   ├── 03_case_memory.ipynb        # Case memory construction
+│   ├── 04_rag_pipeline.ipynb       # RAG pipeline demo
+│   └── 05_agentic_pipeline.ipynb   # Agentic investigation demo
 ├── src/
+│   ├── agents/                     # 🆕 Agentic components
+│   │   ├── tools.py               # Tool wrappers for GNN/FAISS
+│   │   ├── coordinator.py         # Coordinator Agent (ReAct)
+│   │   ├── analyst.py             # Analyst Agent (Verdicts)
+│   │   └── orchestrator.py        # Main pipeline orchestrator
+│   ├── llm/                        # 🆕 LLM client
+│   │   └── client.py              # OpenAI/Anthropic/Ollama
 │   ├── data/
-│   │   ├── elliptic_loader.py    # Dataset loading utilities
-│   │   └── graph_builder.py      # PyG graph construction
+│   │   ├── elliptic_loader.py
+│   │   └── graph_builder.py
 │   ├── models/
-│   │   ├── graphsage.py          # GraphSAGE implementation
-│   │   └── gat.py                # Graph Attention Network
+│   │   ├── graphsage.py
+│   │   └── gat.py
 │   ├── explainer/
-│   │   └── gnn_explainer.py      # GNN explanation generation
+│   │   └── gnn_explainer.py
 │   ├── memory/
-│   │   ├── case_store.py         # Historical case storage
-│   │   └── case_selector.py      # Case selection strategies
+│   │   ├── case_store.py
+│   │   └── case_selector.py
 │   ├── retrieval/
-│   │   ├── faiss_index.py        # FAISS vector index
-│   │   └── retriever.py          # Similar case retrieval
+│   │   ├── faiss_index.py
+│   │   └── retriever.py
 │   ├── prompts/
 │   │   ├── icl_constructor.py    # In-context learning prompts
 │   │   └── templates.py          # Prompt templates
@@ -165,6 +184,31 @@ result = pipeline.predict(transaction_id=12345)
 print(f"Fraud Probability: {result['probability']:.2%}")
 print(f"Explanation: {result['explanation']}")
 print(f"Similar Cases: {result['similar_cases']}")
+```
+
+### 🤖 Agentic Investigation (NEW)
+
+```python
+from src.agents import AMLOrchestrator
+
+# Initialize agentic pipeline
+orchestrator = AMLOrchestrator(
+    model=model,
+    data=graph,
+    case_memory=case_memory,
+    faiss_index=faiss_index,
+    llm_provider="ollama",  # or "openai", "anthropic"
+    verbose=True
+)
+
+# Run autonomous investigation
+result = orchestrator.investigate(node_idx=12345)
+
+# View verdict
+print(f"Risk Level: {result.verdict.risk_level}")
+print(f"Confidence: {result.verdict.confidence:.0%}")
+print(f"Recommendation: {result.verdict.recommendation}")
+print(f"Reasoning: {result.verdict.reasoning}")
 ```
 
 ## 🧠 Model Details

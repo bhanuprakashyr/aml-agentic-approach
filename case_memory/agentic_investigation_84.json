@@ -1,0 +1,30 @@
+{
+  "node_idx": 84,
+  "investigation": {
+    "steps": 5,
+    "evidence_collected": [
+      "get_fraud_score",
+      "retrieve_similar_cases",
+      "get_network_context",
+      "explain_prediction"
+    ],
+    "status": "complete",
+    "started_at": "2026-02-18T22:43:45.036925",
+    "completed_at": "2026-02-18T22:43:57.723186"
+  },
+  "verdict": {
+    "node_idx": 84,
+    "risk_level": "CRITICAL",
+    "confidence": 0.9,
+    "confidence_percentage": "90%",
+    "recommendation": "FLAG_IMMEDIATE",
+    "reasoning": "Assessment based on 4 evidence sources. Fraud score: 98%. Similar cases suggest illicit pattern.",
+    "key_factors": [
+      "Very high fraud score (98%)",
+      "Majority of similar cases (5/5) were illicit"
+    ],
+    "similar_case_summary": "5 illicit and 0 licit similar cases found.",
+    "timestamp": "2026-02-18T22:44:02.265775"
+  },
+  "duration_seconds": 17.229344
+}
