@@ -6,25 +6,26 @@
       "get_fraud_score",
       "retrieve_similar_cases",
       "get_network_context",
-      "explain_prediction"
+      "lookup_case"
     ],
     "status": "complete",
-    "started_at": "2026-02-18T22:43:45.036925",
-    "completed_at": "2026-02-18T22:43:57.723186"
+    "started_at": "2026-02-28T11:26:13.706583",
+    "completed_at": "2026-02-28T11:26:25.006939"
   },
   "verdict": {
     "node_idx": 84,
     "risk_level": "CRITICAL",
-    "confidence": 0.9,
-    "confidence_percentage": "90%",
+    "confidence": 0.95,
+    "confidence_percentage": "95%",
     "recommendation": "FLAG_IMMEDIATE",
-    "reasoning": "Assessment based on 4 evidence sources. Fraud score: 98%. Similar cases suggest illicit pattern.",
+    "reasoning": "The evidence provided indicates a very high risk of illicit activity due to the extremely high fraud score and multiple similar cases with high illicit matches. Although the network context shows no high-risk or known illicit neighbors, this does not detract from the overall risk assessment. The confidence level is high (95%) due to the consistency and strength of the evidence. Immediate escalation is recommended.",
     "key_factors": [
-      "Very high fraud score (98%)",
-      "Majority of similar cases (5/5) were illicit"
+      "High fraud score (97.8%) indicating illicit activity",
+      "Multiple similar cases with high illicit matches (>40% similar)",
+      "Network context showing no high-risk or known illicit neighbors"
     ],
-    "similar_case_summary": "5 illicit and 0 licit similar cases found.",
-    "timestamp": "2026-02-18T22:44:02.265775"
+    "similar_case_summary": "All 3 retrieved similar cases were classified as illicit, with Case 20 being the most similar (45.7%).",
+    "timestamp": "2026-02-28T11:26:29.735162"
   },
-  "duration_seconds": 17.229344
+  "duration_seconds": 16.028793
 }

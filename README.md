@@ -59,6 +59,23 @@ This project implements a novel approach to AML by:
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+Mermaid architecture diagram (source: `ARCHITECTURE.mmd`):
+
+```mermaid
+flowchart LR
+    A["Elliptic CSVs (elliptic_txs_*.csv)"] --> B["Preprocessing"]
+    B --> C["Graph Builder"]
+    C --> D["GNN Encoder (GraphSAGE)"]
+    D --> E["Embedding Store / Case Memory (FAISS)"]
+    D --> F["Risk Scorer (classifier head)"]
+    E --> G["Coordinator Agent (ReAct loop)"]
+    F --> G
+    G -->|calls tools| H["Tools: get_fraud_score, retrieve_similar_cases, explain_prediction, get_network_context"]
+    G --> I["Analyst Agent"]
+    I --> J["Verdict (risk_level, confidence, recommendation)"]
+    style H fill:#f9f,stroke:#333,stroke-width:1px
+```
+
 ## 📁 Project Structure
 
 ```
